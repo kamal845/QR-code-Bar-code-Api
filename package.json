@@ -1,0 +1,19 @@
+{
+  "name": "qrcode-barcode",
+  "version": "1.0.0",
+  "description": "Api's of Qr-code and bar-code generator using nodeJs,expressJs,mongodb.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsbarcode": "^3.11.6",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.1.1",
+    "node": "^21.6.1",
+    "nodemon": "^3.0.3"
+  }
+}
