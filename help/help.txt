@@ -1,0 +1,4 @@
+jsbarcode:-ye barcode ko generate ke liye use hota hai.
+jsPDF:- ye pdf formate ke data ko generate /retrive ke liye hota hai.
+jsQR:- ye image data ko decode kar sakta hai.but transfer nahi kar sakta.
+canvas:-image format ke data ko transfer or retreive dono kar sakta hai.
