@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const dbConnection="mongodb://localhost:27017/bc-qr generator";
+const dbConnection="mongodb://localhost:27017/fouthproject";
 const connectDB=async()=>{
 try {
   await mongoose.connect(dbConnection,{

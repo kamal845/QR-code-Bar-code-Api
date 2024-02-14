@@ -1,5 +1,6 @@
 const express=require('express');
-const qrcode=require("../models/qrcode.schema");
+const qrcode1=require("../models/qrcode.schema");
+const qrcode = require("qrcode");
 const barcode=require('../models/barcode.schema');
 // const {canvas}=require("canvas");
 const { createCanvas } = require('canvas');
@@ -14,77 +15,64 @@ module.exports={
         const canvas = createCanvas();
             const ctx = canvas.getContext('2d');
             jsbarcode(canvas, qrcodee, {
-                lineColor: "#0aa",
+                lineColor: "black",
                 width: 4,
-                height: 40,
+                height: 10,
                 displayValue: false
             });
 
             // Convert canvas to data URL
             const dataUrl = canvas.toDataURL('image/png');
-
-            // Render the EJS template with the data URL
             res.render('index', { data: dataUrl });
+            const barCode = new barcode({
+                data: dataUrl,
+                createdAt: Date.now(),
+                isused: false
+            });
+    
+            await barCode.save();
+            // Render the EJS template with the data URL
         } catch (error) {
             console.log("Error generating barcode:", error);
             res.status(500).send("Internal Server Error");
         }
     },
+   
+    generateqrcode: async (req, res) => {
+        try {
+            const { qrcodee } = req.body;
     
+            if (!qrcodee || typeof qrcodee !== 'string') {
+                throw new Error('Invalid qrcodee data. Non-empty string required.');
+            }
     
-    barCode2:async(req,res)=>{
-        try {
-         //phele scan phir uske baad for image data ko get karne ke liye(pdf,jpg,png) format/ from other page
+            const qrCodeImage = await qrcode.toDataURL(qrcodee, {
+                type: 'image/png',
+                color: {
+                    dark: '#000',
+                    light: '#fff'
+                },
+                width: 4,
+                height: 4,
+            });
+    
+            // Save to MongoDB (assuming qrcode1 is your MongoDB model)
+            const qrCode = new qrcode1({
+                data: qrCodeImage, // Save the data URL
+                createdAt: Date.now(),
+                isused: false
+            });
+    
+            await qrCode.save();
+    
+            res.render('index2', { data: qrCodeImage });
         } catch (error) {
-            
-        }
-    },
-    barCode3:async(req,res)=>{
-        try {
-         //phele scan phir uske baad for image data(information) ko transfer ke liye(pdf,jpg,png) format/ from other page
-        } catch (error) {
-            
-        }
-    },
-    barCode4:async(req,res)=>{
-        try {
-         //phele scan phir uske baad for text data(information) ko transfer ke liye/ from other page
-        } catch (error) {
-            
-        }
-    },
-    qrcode:async(req,res)=>{
-        try {
-            
-        } catch (error) {
-            
+            console.log("Error generating qrcode:", error);
+            res.status(500).send("Internal Server Error");
         }
     }
+    
+    
 }
 
 
-
-
-// const { data } = req.body;
-    
-// if (!data) {
-//     return res.status(400).json({ error: 'Barcode data is required' });
-// }
-
-// try {
-//     // Decode the barcode using jsQR
-//     const decodedData = jsQR(data);
-
-//     if (decodedData) {
-//         // Process the decoded data or save it to the database
-//         await barcode.create({ data: decodedData.data });
-
-//         res.json({ result: decodedData.data });
-//     } else {
-//         throw new Error('Failed to decode barcode');
-//     }
-// } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Failed to parse barcode' });
-// }
-// },
