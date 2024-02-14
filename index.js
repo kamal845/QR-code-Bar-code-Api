@@ -1,7 +1,5 @@
 const express=require("express");
 const bodyParser = require('body-parser');
-const {canvas}=require("canvas");
-const jsQR = require('jsqr');
 const connectDB=require("./database/database");
 const middleware=require('./middleware/middleware');
 const app=express();

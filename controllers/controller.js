@@ -31,7 +31,6 @@ module.exports={
             });
     
             await barCode.save();
-            // Render the EJS template with the data URL
         } catch (error) {
             console.log("Error generating barcode:", error);
             res.status(500).send("Internal Server Error");
@@ -41,11 +40,9 @@ module.exports={
     generateqrcode: async (req, res) => {
         try {
             const { qrcodee } = req.body;
-    
             if (!qrcodee || typeof qrcodee !== 'string') {
                 throw new Error('Invalid qrcodee data. Non-empty string required.');
             }
-    
             const qrCodeImage = await qrcode.toDataURL(qrcodee, {
                 type: 'image/png',
                 color: {
@@ -56,7 +53,7 @@ module.exports={
                 height: 4,
             });
     
-            // Save to MongoDB (assuming qrcode1 is your MongoDB model)
+            // Save to MongoDB 
             const qrCode = new qrcode1({
                 data: qrCodeImage, // Save the data URL
                 createdAt: Date.now(),
@@ -71,8 +68,4 @@ module.exports={
             res.status(500).send("Internal Server Error");
         }
     }
-    
-    
 }
-
-
