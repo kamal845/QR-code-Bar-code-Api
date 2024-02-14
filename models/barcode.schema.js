@@ -1,9 +1,9 @@
 const mongoose=require('mongoose');
 const codeSchema = mongoose.Schema({
-data:{
-    type:String,
-    required:true
-},
+    qrcodee:{
+        type:String,
+        required:false
+    },
 createdAt:{
     type:Date,
     default:Date.now(),
